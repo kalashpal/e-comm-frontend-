@@ -31,7 +31,7 @@ const UpdateProduct: React.FC = () => {
   
   const getProductDetails= async()=>{
     console.warn(params);
-    let result=await fetch(`http://localhost:5000/product/${params.id}`);
+    let result=await fetch(`http://localhost:5000/api/products/${params.id}`);
     const data= await result.json();
     setState({
         name: data.name,
@@ -46,7 +46,7 @@ const UpdateProduct: React.FC = () => {
     console.warn(state.name, state.price, state.category, state.company);
 
     try {
-      const result = await fetch(`http://localhost:5000/product/${params.id}`, {
+      const result = await fetch(`http://localhost:5000/api/products/${params.id}`, {
         method: "Put",
         body: JSON.stringify({
           name: state.name,

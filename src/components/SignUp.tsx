@@ -1,3 +1,5 @@
+import { ok } from "assert";
+import { error } from "console";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -13,13 +15,15 @@ const SignUp: React.FC = () => {
     email: "",
     password: ""
   });
- const navigate=useNavigate();
- useEffect(()=>{
-  const auth=localStorage.getItem('user');
-  if(auth){
-    navigate('/')
-  }
- })
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const auth = localStorage.getItem('user');
+    if (auth) {
+      navigate('/login');
+    }
+  }, [navigate]); 
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setState((prevState) => ({
@@ -28,21 +32,30 @@ const SignUp: React.FC = () => {
     }));
   };
 
-  const CollectData = async () => {
+  const collectData = async () => {
     console.warn(state.name, state.email, state.password);
-    let result= await fetch("http://localhost:5000/register",{
-      method:"post",
-      body:JSON.stringify(state),
-      headers:{
-        'content-type':'application/json'
-      },
-    })
-    result= await result.json();
-    console.warn (result);
-    localStorage.setItem("user",JSON.stringify(result));
-
-    navigate('/');
-    
+    try {
+      let result = await fetch("http://localhost:5000/api/users", {
+        method: "post",
+        body: JSON.stringify(state),
+        headers: {
+          'content-type': 'application/json'
+        },
+      });
+      if(!result.ok){
+        const errorMessage=await result.json();
+        throw new Error(errorMessage.error);
+        
+      }
+      result = await result.json();
+      console.warn(result);
+      localStorage.setItem("user", JSON.stringify(result));
+  
+      navigate('/login');
+    } catch (error) {
+      console.error("Error during registration:", error);
+      alert("Failed to register. Please try again later.");
+    }
   };
 
   return (
@@ -72,7 +85,7 @@ const SignUp: React.FC = () => {
         onChange={handleChange}
         placeholder="password"
       />
-      <button onClick={CollectData} className="appButton" type="button">
+      <button onClick={collectData} className="appButton" type="button">
         SignUp
       </button>
     </div>

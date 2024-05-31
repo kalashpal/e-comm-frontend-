@@ -18,7 +18,7 @@ const ProductList: React.FC = () => {
 
     const getProducts = async () => {
         try {
-            let result = await fetch('http://localhost:5000/products');
+            let result = await fetch('http://localhost:5000/api/products');
             let data = await result.json();
             console.log("Fetched products:", data); // Log fetched products
             setProducts(data);
@@ -30,7 +30,7 @@ const ProductList: React.FC = () => {
     const deleteProduct = async (_id: string) => {
         console.warn("Deleting product with _id:", _id); // Log the _id being passed
         try {
-            let result = await fetch(`http://localhost:5000/product/${_id}`, {
+            let result = await fetch(`http://localhost:5000/api/products/${_id}`, {
                 method: 'DELETE',
             });
             if (result.ok) {

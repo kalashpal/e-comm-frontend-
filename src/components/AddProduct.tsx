@@ -24,7 +24,7 @@ const AddProduct:React.FC=()=>{
         const user=localStorage.getItem('user');
      if(user){
         const userId=JSON.parse(user)._id;
-        const result= await fetch('http://localhost:5000/add-product',{
+        const result= await fetch('http://localhost:5000/api/products',{
             method:'post',
             body: JSON.stringify({
                 userId,

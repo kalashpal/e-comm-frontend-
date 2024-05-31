@@ -15,8 +15,12 @@ const Nav:React.FC=()=>{
                 <li><Link to="/">products</Link></li>
                 <li><Link to="/add">add products</Link></li>
                 <li><Link to="/update/:id">update products</Link></li>
+                <li><Link to="/create-order">CreateOrder</Link></li>
+                <li><Link to="/create-review">CreateReview</Link></li>
+                <li><Link to="/orders">OrderList</Link></li>
+                <li><Link to="/reviews">ReviewList</Link></li>
                
-                <li><Link to="/profile">profile</Link></li>
+
                 <li><Link onClick={logout} to="/signup">logout</Link></li>
                 </ul>
                 :<ul className=" Nav-ul ">
